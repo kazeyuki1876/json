@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 标签页-->
+    <title>trip7</title>
+
+    <!--式样区------------------------------------------------------------------>
+    <style type="text/css">
+        /*https://www.trip7.co.jp/pages/help目标式样*/
+        /*通用*/
+        * {
+            /*边框厚度*/
+            border-width: 2px;
+            /*边框样式实线*/
+            border-style: solid;
+            /*边框颜色*/
+            border-color: blue;
+        }
+/*居中*/
+        .margin_LR {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+/*下选框*/
+        select {
+            font-size: 30px;
+            width: 700px;
+        }
+
+        /*折叠区*/
+/*问题标题*/
+        .titleStyle {
+            height: 30px;
+
+            overflow: hidden;
+
+            background-color:
+                #FFE08B;
+        }
+/*问题答案*/
+        .contentStyle {
+            overflow: hidden;
+
+            height: 0px;
+
+            background-color: #FFFAB9;
+            transition:
+                height 0.2s;
+        }
+    </style>
+
+    <!-- 脚本区----------------------------------------------------------------->
+    <script type="text/javascript">
+        "use strict";//严格模式启动！
+
+        //首先我需要一个文字数组记录关于 取消 支付 预定
+        /*主下拉选框*/
+        const onMoves = ["关于取消", "关于支付", "关于预定"]
+        function getOnMoves(value) {
+
+
+            let obj_select = document.getElementById("onMove");
+            let obj_div1 = document.getElementById("cancelDiv");
+            let obj_div2 = document.getElementById("payDiv");
+            let obj_div3 = document.getElementById("reservationDiv");
+            //console.log(value);
+            obj_div1.style.display = value == onMoves[0] ? "block" : "none";
+            obj_div2.style.display = value == onMoves[1] ? "block" : "none";
+            obj_div3.style.display = value == onMoves[2] ? "block" : "none";
+            //console.log(value);
+            getclass("contentStyle")
+        }
+        /*查找所有含有className的标签*/
+        function getclass(className) {
+            var ids = document.getElementsByClassName(className);
+            //console.log(ids);
+            for (let i = 0; i < ids.length; i++) {
+                ids[i].style.height = 0 + 'px';
+            }
+        }
+        /*折叠标签被点击*/
+        function onTileClick(getTag) {
+            console.log(getTag);
+            let title = document.getElementById(getTag).nextElementSibling.id;
+            console.log(title);
+            let content = document.getElementById(title);
+            console.log("content" + content.id);
+            console.log(content.style.height);
+            content.style.height = content.offsetHeight === 154 ? 0 + 'px' : 150 + 'px';
+            console.log(content.style.height);
+            console.log(content.offsetHeight);
+        }
+        /*
+            console.log(h);
+            console.info(w);
+            console.warn('警告信息');
+            console.error('错误信息');
+        */
+    </script>
+
+</head>
+
+<body>
+
+    <!--logo-->
+    <img src="data:image/png;base64,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"
+        alt="">
+        
+    <!--标题-->
+    <h1 style=" width:600px;color: blue;" class="margin_LR">欢迎来到Trip7！请问有什么可以帮到您？</h1>
+    
+    
+    <!--主文本-->
+    <div class="margin_LR">
+        <select id="onMove" onchange=(getOnMoves(value))>
+            <option value="关于取消">关于取消</option>
+            <option value="关于支付">关于支付</option>
+            <option value="关于预定">关于预定</option>
+        </select>
+    </div>
+
+    <p></p>
+    <p></p>
+
+    <!-- 下级文本-->
+    <!--取消-->
+    <div id="cancelDiv" class="margin_LR">
+
+        <div id="cancelProblemMessage1" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="cancelanswerMessage1" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+        <div id="cancelProblemMessage2" class="titleStyle" onclick="onTileClick(this.id)">标题</div>
+
+        <div id="cancelanswerMessage2" class="contentStyle">
+            白日依山尽<br>
+        </div>
+
+        <div id="cancelProblemMessage3" class="titleStyle" onclick="onTileClick(this.id)">标题</div>
+
+        <div id="cancelanswerMessage3" class="contentStyle">
+            白日依山尽<br>
+        </div>
+
+        <div id="cancelProblemMessage4" class="titleStyle" onclick="onTileClick(this.id)">标题</div>
+
+        <div id="cancelanswerMessage4" class="contentStyle">
+            白日依山尽<br>
+        </div>
+
+
+
+
+
+    </div>
+    </div>
+
+    <!--付款-->
+    <div id="payDiv" class="margin_LR" style="display: none;">
+
+        <div id="payProblemMessage1" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="payAnswerMessage1" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+        <div id="payProblemMessage2" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="payAnswerMessage2" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+        <div id="payProblemMessage3" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="payAnswerMessage3" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+        <div id="payProblemMessage4" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="payAnswerMessage4" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+
+    </div>
+
+    <!--付款-->
+    <div id="reservationDiv" class="margin_LR" style="display: none;">
+
+        <div id="reservationProblemMessage1" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="reservationAnswerMessage1" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+        <div id="reservationProblemMessage2" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="reservationAnswerMessage2" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+        <div id="reservationProblemMessage3" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="reservationAnswerMessage3" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+        <div id="reservationProblemMessage4" class="titleStyle" onclick="onTileClick(this.id)">我可以取消订单吗</div>
+
+        <div id="reservationAnswerMessage4" class="contentStyle">
+            当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。<br>
+        </div>
+
+
+
+    </div>
+    <script>
+      //  window.onload = getOnMoves("关于取消");
+    </script>
+</body>
+
+</html>

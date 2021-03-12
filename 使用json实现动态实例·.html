@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style type="text/css">
+    /*https://www.trip7.co.jp/pages/help目标式样*/
+    /*居中*/
+    .margin_LR {
+      width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    /*下选框*/
+    select {
+      font-size: 30px;
+      width: 700px;
+    }
+    /*折叠区*/
+    /*问题标题*/
+    .titleStyle {
+      height: 30px;
+      overflow: hidden;
+      background-color:
+        #FFE08B;
+    }
+    /*问题答案*/
+    .contentStyle {
+      overflow: hidden;
+      height: 0px;
+      background-color: #FFFAB9;
+      transition:
+      height 0.2s;
+    }
+  </style>
+  <!-- 代码区 -->
+  <script type="text/javascript">
+    /*Json data*/
+    let jsonData;
+    //数组//对象
+    jsonData = [
+      {
+        "id": 1,
+        "topic": "关于取消",
+        "questions": [
+          {
+            "question": "我可以取消订单吗？",
+            "answer": "当然可以！任何取消费用均由住宿提供方决定，你可以在取消政策中查看。你将向住宿提供方支付任何附加费用。"
+          },
+          {
+            "question": "取消订单会收取费用吗？",
+            "answer": "如果你的订单可免费取消，则无需支付取消费用。如果已经错过免费取消的最后期限或该订单不可退款，则会产生取消费用。任何取消费用均由住宿提供方决定，你将向住宿提供方支付任何附加费用。"
+          },
+          {
+            "question": "对于不可退款订单，我可以取消或修改日期吗？",
+            "answer": "取消不可退款订单通常需支付取消费用。但您可在管理订单时选择请求免费取消。这一请求将发送给住宿提供方，并由他们决定是否为您减免取消费用。您无法更改不退款订单的日期，但如果住宿同意为您减免费用，您可重新预订想要的日期。"
+          },
+          {
+            "question": "我如何知晓订单是否已被取消？",
+            "answer": "取消订单后，你将收到一封确认邮件。请于收件箱或垃圾邮件文件夹中查阅。如果取消订单后24小时内仍未收到该邮件，请联系住宿提供方与其确认订单是否已被取消。"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "topic": "关于支付",
+        "questions": [
+          {
+            "question": "接受哪些付款方式？",
+            "answer": "支付宝、微信支付是Trip7上的住宿最广泛使用的付款方式，大多数住宿使用支付宝、微信来担保您的订单。\n某些情况下，住宿也接受其他付款方式（例如PayPal、信用卡等）。还有部分例外情况，可以使用借记卡预订。\n住宿接受的支付方式会在订单确认信息中列明。您也可以致电住宿进行确认。"
+          },
+          {
+            "question": "我可以支付押金或者预付款吗？",
+            "answer": "部分住宿要求在您提前支付预付款（也就是所谓押金）。该预付款可能是部分/全部订单金额，入住时再支付剩余款项。\n虽然部分住宿不要求预付，但您需要在入住时支付订单全额。建议您查看订单确认中的付款政策。"
+          },
+          {
+            "question": "我被扣款了，需要做什么吗？",
+            "answer": "大多数情况下，您无需任何操作。正如订单付款政策中说明的，这很可能是收取部分/全部订单金额作为预付款。\n如果没有相关的预付政策，住宿可能是在进行信用卡收款测试。这只是暂时冻结部分金额，用于担保订单，稍后会退还给您。\n如果您仍然觉得收费有问题，请联系我们获取帮助。您需要提交扣款证明，这样我们才可以代表您联系住宿。"
+          },
+          {
+            "question": "我可以使用与预订时不同的信用卡付款吗？",
+            "answer": "多数情况下可以。住宿通常可以接受不同信用卡或现金付款。如需确认是否可以使用不同的信用卡，请直接联系住宿。"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "topic": "关于预定",
+        "questions": [
+          {
+            "question": "如何获取客房或住宿设施的更多信息？",
+            "answer": "你可以在订单确认信中查看客房及住宿设施。"
+          },
+          {
+            "question": "可以为儿童加床或加婴儿床吗？",
+            "answer": "由住宿提供方设置的政策决定。订单价格中不包含加床或加婴儿床等儿童额外费用。请直接联系住宿，获取更多信息。"
+          },
+          {
+            "question": "如何获取发票？",
+            "answer": "发票由住宿提供，请直接联系他们。"
+          },
+          {
+            "question": "我找不到订单确认信了，怎么办？",
+            "answer": "别忘了检查收件箱或垃圾邮件。如果仍无法找到订单确认邮件，请联系Trip7官方微信，我们会重新发送给你。"
+          },
+          {
+            "question": "我需要为我的孩子支付全额吗？",
+            "answer": "订单价格中不包含儿童额外费用。请直接联系住宿，了解儿童收费事宜。"
+          },
+          {
+            "question": "双人间和双床间有什么差别？",
+            "answer": "双人间提供1张双人床，双床间提供2张单人床。如果客房名称为双人/双床间，则提供两种床型。住宿将尽可能按照你的要求安排床型。"
+          },
+          {
+            "question": "我准备在入住办理时间之外到店，我还可以办理入住吗？",
+            "answer": "由住宿提供方决定，他们会尽量安排，但不能保证满足你的请求。你可以进行以下操作：\n・请求提前或延迟入住/退房\n・联系住宿"
+          },
+          {
+            "question": "我可以修改订单吗？比如修改日期？",
+            "answer": "当然可以！你可以通过确认邮件或Trip7修改订单。根据住宿提供方的政策，你可以：\n・添加餐食\n・提出请求\n・联系住宿\n・修改入住/退房时间\n・修改日期\n・取消订单\n・编辑信用卡信息\n・修改住客信息\n・选择床型\n・修改房型\n・添加客房"
+          }
+        ]
+      }
+    ]
+    /*
+                jsonData[
+                            id
+                            topic
+                            questions[
+                                question
+                                answer
+                            ]
+                        ]
+    */
+    "use strict";//严格模式启动！
+    //首先我需要一个文字数组记录关于 取消 支付 预定
+    /*主下拉选框*/
+    let onMoves = ["关于取消", "关于支付", "关于预定"]
+    let boxid =["","",""]
+    function getOnMoves(value) {
+      let obj_select = document.getElementById("onMove");
+      let obj_div1 = document.getElementById(boxid[0]);
+      let obj_div2 = document.getElementById(boxid[1]);
+      let obj_div3 = document.getElementById(boxid[2]);
+      //console.log(value);
+      obj_div1.style.display = value == onMoves[0] ? "block" : "none";
+      obj_div2.style.display = value == onMoves[1] ? "block" : "none";
+      obj_div3.style.display = value == onMoves[2] ? "block" : "none";
+      //console.log(value);
+      getclass("contentStyle")
+    }
+    /*查找所有含有className的标签*/
+    function getclass(className) {
+      var ids = document.getElementsByClassName(className);
+      //console.log(ids);
+      for (let i = 0; i < ids.length; i++) {
+        ids[i].style.height = 0 + 'px';
+      }
+    }
+    /*折叠标签被点击*/
+    function onTileClick(getTag) {
+      console.log("引用的标签" + getTag);
+      let title = document.getElementById(getTag).nextElementSibling.id;
+      console.log("被引用标签的" + title);
+      let content = document.getElementById(title);
+      console.log("准备修改的标签ID!" + content.id + "标高" + content.style.height);
+      console.log();
+      content.style.height = content.offsetHeight === 154 ? 0 + 'px' : 150 + 'px';
+      console.log("修改后的标签高度" + content.style.height + "修改后的标签content.offsetHeight" + content.offsetHeight);
+    }
+    /*
+        console.log(h);
+        console.info(w);
+        console.warn('警告信息');
+        console.error('错误信息');
+    */
+    function IdTest() {
+      let x;
+      x = jsonData[0].id;
+      document.getElementById("iddemo").innerHTML = x;
+      //console.log(x);
+    }
+    function TopicTest() {
+      let x;
+      x = jsonData[0].topic;
+      document.getElementById("topicdemo").innerHTML = x;
+      // console.log(x);
+    }
+    function QuestionquestionsTest() {
+      let x;
+      x = jsonData[0].questions[0].question;
+      document.getElementById("questiondemo").innerHTML = x;
+      // console.log(x);
+    }
+    function AnswerTest() {
+      let x;
+      x = jsonData[0].questions[0].answer;
+      document.getElementById("answerdemo").innerHTML = x;
+      //console.log(x);
+    }
+    function Maxtest() {
+      let setid = "",
+        toptitle = "",
+        num = 0,
+        setText = "";
+      toptitle += "<div class='margin_LR'>";
+      toptitle += "<select id='onMove' onchange=(getOnMoves(value))>";
+      for (i in jsonData) {
+        toptitle += "<option value='" + jsonData[i].topic + "'> " + jsonData[i].topic + " </option>";
+        console.log("jsonData[i].topic"+toptitle);
+        onMoves[i] = jsonData[i].topic;
+        boxid[i]="id"+jsonData[i].id;
+        if (i < 1) {
+          setText += "<div id='id" + jsonData[i].id + "' class='margin_LR'>";
+
+        } else {
+          setText += "<div id='id" + jsonData[i].id + "' class='margin_LR'  style='display: none;'>";
+        }
+        console.log(setText);
+        for (j in jsonData[i].questions) {
+          //console.log("setText"+jsonData[i].questions[j].question);
+          setText += "<div id='questions" + j + "+' class='titleStyle' onclick='onTileClick(this.id)'>"
+            + jsonData[i].questions[j].question + "</div>";
+          setText += "<div id='questions" + j + "' class='contentStyle'>"
+            + jsonData[i].questions[j].answer + "<br></div>";
+          //console.log("问题回答"+setText);
+        }
+        if (i == num) {
+          num++;
+          setText += "<br></div>"
+          let text = "text" + num;
+          document.getElementById(text).innerHTML = setText;
+          setText = "";
+        }
+      }
+      //document.getElementById("demo").innerHTML = setid; 
+      console.log(toptitle);
+      toptitle += "  </select><br></div>"
+      document.getElementById("top").innerHTML = toptitle;
+      console.log(onMoves[0]);
+      console.log(onMoves[1]);
+      console.log(onMoves[2]);
+    }
+  </script>
+</head>
+<body>
+  <!-- <p id="iddemo">text</p>
+    <p id="topicdemo">text</p>
+    <p id="questiondemo">text</p>
+    <p id="answerdemo">text</p>
+    <p id="demo">text</p>  -->
+  <p id="top">top</p>
+  <biv id="text1">text1 </biv>
+  <biv id="text2">text2 </biv>
+  <biv id="text3">text3 </biv>
+  <script>
+    //IdTest();
+    //TopicTest();
+    //QuestionquestionsTest();
+    //AnswerTest();
+    Maxtest();
+  </script>
+</body>
+</html>
+<!--?！
+  本次问题
+  查询读取本体Json文件的时间过度花费基本貌似是从服务器读取但是应该有读取本地文档的方法
+  html书写时避免使用双引号否则容易会造成歧义
+  变量尽量使用组合词语或$，_ 否则容易会造成歧义
+-->
